@@ -44,9 +44,9 @@ resources:
       development: false
       libraries:
         - notebook:
-            path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/06_pipelines/dlt_financial_analytics
+            path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/07_pipelines/dlt_financial_analytics
         - notebook:
-            path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/06_pipelines/dlt_risk_compliance
+            path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/07_pipelines/dlt_risk_compliance
 
   jobs:
     meridian_orchestration:
