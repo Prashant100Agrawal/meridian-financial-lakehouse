@@ -1,0 +1,23 @@
+{
+  "api_endpoints": {
+    "trading_systems": {
+      "url": "https://api.example.com/trading/v1/data",
+      "interval_minutes": 15,
+      "enabled": true
+    },
+    "market_data": {
+      "url": "https://api.example.com/market/v1/quotes",
+      "interval_minutes": 15,
+      "enabled": true
+    },
+    "risk_data": {
+      "url": "https://api.example.com/risk/v1/metrics",
+      "interval_minutes": 15,
+      "enabled": true
+    }
+  },
+  "storage": {
+    "raw_path": "/Volumes/financial_lakehouse/raw/landing_files",
+    "checkpoint_path": "/Volumes/financial_lakehouse/raw/checkpoints"
+  }
+}

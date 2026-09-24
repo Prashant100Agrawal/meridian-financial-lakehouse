@@ -1,0 +1,163 @@
+# Meridian Financial Lakehouse - Declarative Automation Bundle
+# This file defines the infrastructure-as-code for CI/CD deployment
+
+bundle:
+  name: meridian-financial-lakehouse
+
+variables:
+  catalog:
+    description: "Unity Catalog for the lakehouse"
+    default: financial_lakehouse
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: ${DATABRICKS_HOST}
+    variables:
+      catalog: financial_lakehouse
+
+  staging:
+    mode: staging
+    workspace:
+      host: ${DATABRICKS_HOST}
+    variables:
+      catalog: financial_lakehouse_staging
+
+  prod:
+    mode: production
+    workspace:
+      host: ${DATABRICKS_HOST}
+    variables:
+      catalog: financial_lakehouse
+
+resources:
+  pipelines:
+    meridian_sdp:
+      name: "Meridian Financial Lakehouse SDP"
+      catalog: ${var.catalog}
+      edition: ADVANCED
+      channel: CURRENT
+      serverless: true
+      photon: true
+      development: false
+      libraries:
+        - notebook:
+            path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/06_pipelines/dlt_financial_analytics
+        - notebook:
+            path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/06_pipelines/dlt_risk_compliance
+
+  jobs:
+    meridian_orchestration:
+      name: "Meridian Lakehouse Orchestration"
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"
+        timezone_id: UTC
+        pause_status: UNPAUSED
+      email_notifications:
+        on_failure:
+          - prashant.agrawal100@gmail.com
+        on_success:
+          - prashant.agrawal100@gmail.com
+        no_alert_for_skipped_runs: true
+      tasks:
+        - task_key: ingestion
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/02_ingestion/api_ingest_raw
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: bronze_trading_systems
+          depends_on:
+            - task_key: ingestion
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_bronze/bronze_trading_systems
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: bronze_external_apis
+          depends_on:
+            - task_key: ingestion
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_bronze/bronze_external_apis
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: silver_cleanse
+          depends_on:
+            - task_key: bronze_trading_systems
+            - task_key: bronze_external_apis
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_cleanse_deduplicate
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: silver_dq_checks
+          depends_on:
+            - task_key: silver_cleanse
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_data_quality_checks
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: silver_conform
+          depends_on:
+            - task_key: silver_dq_checks
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_conform_enrich
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: gold_financial_analytics
+          depends_on:
+            - task_key: silver_conform
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_financial_analytics
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: gold_risk_measures
+          depends_on:
+            - task_key: silver_conform
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_risk_measures
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: gold_regulatory_reporting
+          depends_on:
+            - task_key: silver_conform
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_regulatory_reporting
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: dq_monitoring
+          depends_on:
+            - task_key: gold_financial_analytics
+            - task_key: gold_risk_measures
+            - task_key: gold_regulatory_reporting
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/06_data_quality/dq_monitoring
+            source: WORKSPACE
+          timeout_seconds: 300
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: sdp_pipeline_update
+          depends_on:
+            - task_key: silver_conform
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.meridian_sdp.id}
+          timeout_seconds: 1800
+          max_retries: 2
+          retry_on_timeout: true

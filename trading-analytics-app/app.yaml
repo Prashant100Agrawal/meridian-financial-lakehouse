@@ -1,0 +1,8 @@
+# Databricks App Configuration
+name: trading-analytics-app
+
+resources:
+  - name: main
+    serving_mode: SERVERLESS
+    config:
+      command: ["flask", "run", "--host", "0.0.0.0", "--port", "8080"]

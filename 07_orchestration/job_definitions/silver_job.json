@@ -1,0 +1,41 @@
+{
+  "name": "Meridian - Silver Layer Job",
+  "tasks": [
+    {
+      "task_key": "silver_cleanse",
+      "notebook_task": {
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_cleanse_deduplicate",
+        "source": "GIT"
+      },
+      "job_cluster_key": "default_cluster"
+    },
+    {
+      "task_key": "silver_quality_checks",
+      "depends_on": [{"task_key": "silver_cleanse"}],
+      "notebook_task": {
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_data_quality_checks",
+        "source": "GIT"
+      },
+      "job_cluster_key": "default_cluster"
+    },
+    {
+      "task_key": "silver_conform",
+      "depends_on": [{"task_key": "silver_quality_checks"}],
+      "notebook_task": {
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_conform_enrich",
+        "source": "GIT"
+      },
+      "job_cluster_key": "default_cluster"
+    }
+  ],
+  "job_clusters": [
+    {
+      "job_cluster_key": "default_cluster",
+      "new_cluster": {
+        "spark_version": "14.3.x-scala2.12",
+        "node_type_id": "i3.xlarge",
+        "num_workers": 2
+      }
+    }
+  ]
+}

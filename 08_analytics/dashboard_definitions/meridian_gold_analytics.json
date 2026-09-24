@@ -1,0 +1,182 @@
+{
+  "dashboardName": "Meridian Gold Analytics",
+  "dashboardId": "01f1b728ddca16528baed60b882f92aa",
+  "description": "Financial analytics dashboard built on Meridian Financial Lakehouse gold layer tables",
+  "datasets": [
+    {
+      "datasetRefName": "datasets/account_perf",
+      "displayName": "Account Performance",
+      "sqlQuery": "SELECT acct_id, trade_date, num_trades, total_traded_value, num_instruments, buy_value, sell_value, net_position, created_timestamp FROM financial_lakehouse.gold.account_performance"
+    },
+    {
+      "datasetRefName": "datasets/daily_summary",
+      "displayName": "Daily Trading Summary",
+      "sqlQuery": "SELECT trade_date, symbol, side, num_trades, total_quantity, total_value, avg_price, min_price, max_price, created_timestamp FROM financial_lakehouse.gold.daily_trading_summary"
+    },
+    {
+      "datasetRefName": "datasets/top_net_positions",
+      "displayName": "Top 20 Net Positions",
+      "sqlQuery": "SELECT acct_id, net_position FROM financial_lakehouse.gold.account_performance ORDER BY ABS(net_position) DESC LIMIT 20"
+    },
+    {
+      "datasetRefName": "datasets/top_accounts",
+      "displayName": "Top 10 Accounts by Value",
+      "sqlQuery": "SELECT acct_id, num_trades, total_traded_value, buy_value, sell_value, net_position FROM financial_lakehouse.gold.account_performance ORDER BY total_traded_value DESC LIMIT 10"
+    }
+  ],
+  "pages": [
+    {
+      "pageName": "Trading Overview",
+      "widgets": [
+        {
+          "name": "Total Traded Value",
+          "type": "counter",
+          "dataset": "datasets/account_perf",
+          "position": {
+            "row": 0,
+            "col": 0,
+            "width": 3,
+            "height": 2
+          },
+          "value": "SUM(total_traded_value)"
+        },
+        {
+          "name": "Total Trades",
+          "type": "counter",
+          "dataset": "datasets/account_perf",
+          "position": {
+            "row": 0,
+            "col": 3,
+            "width": 3,
+            "height": 2
+          },
+          "value": "SUM(num_trades)"
+        },
+        {
+          "name": "Total Accounts",
+          "type": "counter",
+          "dataset": "datasets/account_perf",
+          "position": {
+            "row": 0,
+            "col": 6,
+            "width": 3,
+            "height": 2
+          },
+          "value": "COUNT_DISTINCT(acct_id)"
+        },
+        {
+          "name": "Avg Trades / Account",
+          "type": "counter",
+          "dataset": "datasets/account_perf",
+          "position": {
+            "row": 0,
+            "col": 9,
+            "width": 3,
+            "height": 2
+          },
+          "value": "AVG(num_trades)"
+        },
+        {
+          "name": "Net Position by Account (Top 20)",
+          "type": "bar",
+          "dataset": "datasets/top_net_positions",
+          "position": {
+            "row": 2,
+            "col": 0,
+            "width": 6,
+            "height": 5
+          },
+          "x": "acct_id",
+          "y": "SUM(net_position)"
+        },
+        {
+          "name": "Buy vs Sell Value Distribution",
+          "type": "pie",
+          "dataset": "datasets/daily_summary",
+          "position": {
+            "row": 2,
+            "col": 6,
+            "width": 6,
+            "height": 5
+          },
+          "angle": "SUM(total_value)",
+          "color": "side"
+        },
+        {
+          "name": "Top 10 Accounts by Traded Value",
+          "type": "table",
+          "dataset": "datasets/top_accounts",
+          "position": {
+            "row": 7,
+            "col": 0,
+            "width": 12,
+            "height": 5
+          },
+          "columns": [
+            "acct_id",
+            "num_trades",
+            "total_traded_value",
+            "buy_value",
+            "sell_value",
+            "net_position"
+          ]
+        }
+      ]
+    },
+    {
+      "pageName": "Daily Trading Activity",
+      "widgets": [
+        {
+          "name": "Daily Total Traded Value",
+          "type": "line",
+          "dataset": "datasets/daily_summary",
+          "position": {
+            "row": 0,
+            "col": 0,
+            "width": 12,
+            "height": 5
+          },
+          "x": "trade_date",
+          "y": "SUM(total_value)",
+          "color": "side"
+        },
+        {
+          "name": "Trading Volume by Symbol",
+          "type": "bar",
+          "dataset": "datasets/daily_summary",
+          "position": {
+            "row": 5,
+            "col": 0,
+            "width": 12,
+            "height": 5
+          },
+          "x": "symbol",
+          "y": "SUM(total_quantity)",
+          "color": "side"
+        },
+        {
+          "name": "Daily Trading Summary",
+          "type": "table",
+          "dataset": "datasets/daily_summary",
+          "position": {
+            "row": 10,
+            "col": 0,
+            "width": 12,
+            "height": 5
+          },
+          "columns": [
+            "trade_date",
+            "symbol",
+            "side",
+            "num_trades",
+            "total_quantity",
+            "total_value",
+            "avg_price",
+            "min_price",
+            "max_price"
+          ]
+        }
+      ]
+    }
+  ]
+}

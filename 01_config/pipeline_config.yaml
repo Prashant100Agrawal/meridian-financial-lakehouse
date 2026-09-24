@@ -1,0 +1,30 @@
+# Pipeline Configuration
+project_name: meridian-financial-lakehouse
+version: 1.0.0
+
+# Catalog settings
+catalog:
+  name: financial_lakehouse
+  schemas:
+    - raw
+    - bronze
+    - silver
+    - gold
+
+# Data quality rules
+data_quality:
+  enabled: true
+  quarantine_bad_records: true
+  alert_on_failure: true
+
+# Processing settings
+processing:
+  bronze:
+    enable_schema_evolution: true
+    merge_schema: true
+  silver:
+    deduplication_enabled: true
+    data_quality_checks: true
+  gold:
+    aggregation_level: daily
+    materialized_views: true

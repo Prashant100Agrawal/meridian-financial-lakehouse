@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Analytics Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Trading Analytics Assistant</h1>
+            <p>Ask questions about your trading data</p>
+        </header>
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-message">
+                <h2>Welcome!</h2>
+                <p>I can help you analyze:</p>
+                <ul>
+                    <li>Account performance and P&L</li>
+                    <li>NAV calculations and exposure metrics</li>
+                    <li>Individual transaction details</li>
+                    <li>Daily trading summaries</li>
+                </ul>
+                <p>Try asking: "What is the total P&L by instrument?" or "Show me large trades"</p>
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <input 
+                type="text" 
+                id="questionInput" 
+                placeholder="Ask a question about your trading data..."
+                autocomplete="off"
+            />
+            <button id="sendButton">Send</button>
+        </div>
+        
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <span>Thinking...</span>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
