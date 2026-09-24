@@ -64,7 +64,7 @@ alert_config = {
 
 # Alert destinations
 alert_destinations = {
-    'email': 'data-eng-team@company.com',
+    'email': dbutils.secrets.get(scope='meridian_alerts', key='alert_email'),
     'slack': '#lakehouse-alerts'
 }
 
@@ -220,7 +220,7 @@ def send_alert(alert_type, alert_message, channels=['email']):
     
     # Slack alert (example - integrate with Slack webhook)
     if 'slack' in channels:
-        # slack_webhook_url = dbutils.secrets.get(scope='alerts', key='slack_webhook')
+        slack_webhook_url = dbutils.secrets.get(scope="meridian_alerts", key="slack_webhook_url")
         # requests.post(slack_webhook_url, json={'text': alert_message})
         print(f"   💬 Slack message sent to {alert_destinations.get('slack', 'N/A')}")
     

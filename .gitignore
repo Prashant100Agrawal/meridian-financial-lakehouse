@@ -1,0 +1,48 @@
+# Databricks
+.databricks/
+*.crc
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.venv/
+venv/
+env/
+
+# Secrets & credentials
+*.env
+.env.local
+secrets.json
+credentials.json
+*.key
+*.pem
+*.p12
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# DABs build artifacts
+.databricks/
+*.bundle.json
+
+# Temporary files
+*.tmp
+*.bak
+*.cache

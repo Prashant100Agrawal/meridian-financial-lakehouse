@@ -161,3 +161,55 @@ resources:
           timeout_seconds: 1800
           max_retries: 2
           retry_on_timeout: true
+        - task_key: regulatory_basel_iii
+          depends_on:
+            - task_key: gold_financial_analytics
+            - task_key: gold_risk_measures
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/14_regulatory/regulatory_basel_iii
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: regulatory_risk_reporting
+          depends_on:
+            - task_key: gold_financial_analytics
+            - task_key: gold_risk_measures
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/14_regulatory/regulatory_risk_reporting
+            source: WORKSPACE
+          timeout_seconds: 600
+          max_retries: 3
+          retry_on_timeout: true
+        - task_key: alert_checks
+          depends_on:
+            - task_key: sdp_pipeline_update
+            - task_key: dq_monitoring
+            - task_key: regulatory_basel_iii
+            - task_key: regulatory_risk_reporting
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/13_monitoring/check_and_send_alerts
+            source: WORKSPACE
+          timeout_seconds: 300
+          max_retries: 2
+          retry_on_timeout: true
+
+  jobs:
+    meridian_maintenance:
+      name: "Meridian Lakehouse Table Maintenance"
+      schedule:
+        quartz_cron_expression: "0 0 0 ? * SUN"
+        timezone_id: UTC
+        pause_status: UNPAUSED
+      email_notifications:
+        on_failure:
+          - prashant.agrawal100@gmail.com
+        no_alert_for_skipped_runs: true
+      tasks:
+        - task_key: vacuum_optimize
+          notebook_task:
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/10_utilities/table_maintenance
+            source: WORKSPACE
+          timeout_seconds: 1800
+          max_retries: 2
+          retry_on_timeout: true

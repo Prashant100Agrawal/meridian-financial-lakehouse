@@ -28,7 +28,7 @@ import json
 # DBTITLE 1,Kafka Configuration
 # Kafka/MSK Configuration
 # Replace with your actual MSK cluster endpoint
-kafka_bootstrap_servers = "<your-msk-cluster-endpoint>:9092"
+kafka_bootstrap_servers = dbutils.secrets.get(scope="meridian_lakehouse", key="kafka_bootstrap_servers")
 
 # Topics to subscribe to
 kafka_topics = [
@@ -39,7 +39,7 @@ kafka_topics = [
 
 # Security Configuration for AWS MSK with IAM auth
 kafka_security_protocol = "SASL_SSL"
-kafka_sasl_mechanism = "AWS_MSK_IAM"
+kafka_sasl_mechanism = dbutils.secrets.get(scope="meridian_lakehouse", key="kafka_sasl_mechanism")
 
 # Checkpoint locations for each stream
 checkpoint_base = "/Volumes/financial_lakehouse/raw/checkpoints/kafka"

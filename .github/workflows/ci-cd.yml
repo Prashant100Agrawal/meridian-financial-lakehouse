@@ -1,0 +1,73 @@
+name: Meridian Lakehouse CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/*'
+      - 'hotfix/*'
+  pull_request:
+    branches:
+      - main
+
+env:
+  DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+  DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+jobs:
+  validate:
+    name: Validate Bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Databricks CLI
+        run: pip install databricks-cli
+      - name: Validate DABs for dev
+        run: databricks bundle validate -t dev
+      - name: Validate DABs for staging
+        run: databricks bundle validate -t staging
+      - name: Validate DABs for prod
+        run: databricks bundle validate -t prod
+
+  deploy-dev:
+    name: Deploy to Dev
+    needs: validate
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Databricks CLI
+        run: pip install databricks-cli
+      - name: Deploy to dev
+        run: databricks bundle deploy -t dev
+
+  deploy-staging:
+    name: Deploy to Staging
+    needs: validate
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Databricks CLI
+        run: pip install databricks-cli
+      - name: Deploy to staging
+        run: databricks bundle deploy -t staging
+
+  deploy-prod:
+    name: Deploy to Production
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Databricks CLI
+        run: pip install databricks-cli
+      - name: Deploy to production
+        run: databricks bundle deploy -t prod
