@@ -31,27 +31,27 @@ import json
 # Bronze tables to optimize
 bronze_tables = [
     {
-        "table": "financial_lakehouse.bronze.trading_systems",
+        "table": "financial_lakehouse.operational.trading_systems",
         "zorder_columns": ["trade_date", "account_id"],
         "retention_days": 90
     },
     {
-        "table": "financial_lakehouse.bronze.transactions",
+        "table": "financial_lakehouse.operational.transactions",
         "zorder_columns": ["transaction_date", "account_id"],
         "retention_days": 180
     },
     {
-        "table": "financial_lakehouse.bronze.positions",
+        "table": "financial_lakehouse.operational.positions",
         "zorder_columns": ["position_date", "account_id"],
         "retention_days": 365
     },
     {
-        "table": "financial_lakehouse.bronze.accounts",
+        "table": "financial_lakehouse.operational.accounts",
         "zorder_columns": ["account_id"],
         "retention_days": 730  # 2 years for dimensional data
     },
     {
-        "table": "financial_lakehouse.bronze.custody_platforms",
+        "table": "financial_lakehouse.operational.custody_platforms",
         "zorder_columns": ["position_date", "account_id"],
         "retention_days": 180
     }
@@ -327,7 +327,7 @@ for config in bronze_tables:
 
 # DBTITLE 1,Track Schema Changes
 # Create schema tracking table if it doesn't exist
-schema_tracking_table = "financial_lakehouse.bronze.schema_evolution_log"
+schema_tracking_table = "financial_lakehouse.operational.schema_evolution_log"
 
 spark.sql(f"""
     CREATE TABLE IF NOT EXISTS {schema_tracking_table} (

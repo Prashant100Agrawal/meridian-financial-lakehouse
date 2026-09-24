@@ -20,7 +20,7 @@ class TestTransformations(unittest.TestCase):
     
     def test_total_value_calculation(self):
         """Test that total_value = qty * unit_price"""
-        df = self.spark.table("financial_lakehouse.silver.trading_systems_conformed")
+        df = self.spark.table("financial_lakehouse.standardized.trading_systems_conformed")
         
         df_calc = df.withColumn("expected_value", col("qty") * col("unit_price"))
         df_calc = df_calc.withColumn("value_diff", abs(col("total_value") - col("expected_value")))
@@ -31,7 +31,7 @@ class TestTransformations(unittest.TestCase):
     
     def test_conformed_column_names(self):
         """Test that conformed table has expected columns"""
-        df = self.spark.table("financial_lakehouse.silver.trading_systems_conformed")
+        df = self.spark.table("financial_lakehouse.standardized.trading_systems_conformed")
         
         expected_cols = ['txn_id', 'acct_id', 'symbol', 'side', 'qty', 'unit_price', 'total_value']
         actual_cols = df.columns

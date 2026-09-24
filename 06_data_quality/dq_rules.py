@@ -48,7 +48,7 @@ class DataQualityRules:
 # COMMAND ----------
 
 # Example usage
-df = spark.table("financial_lakehouse.silver.trading_systems_conformed")
+df = spark.table("financial_lakehouse.standardized.trading_systems_conformed")
 
 print("Data Quality Check Results:")
 print("="*50)

@@ -10,7 +10,7 @@ from pyspark.sql.functions import *
 # COMMAND ----------
 
 # Read clean silver data
-df_clean = spark.table("financial_lakehouse.silver.trading_systems_clean")
+df_clean = spark.table("financial_lakehouse.standardized.trading_systems_clean")
 
 # COMMAND ----------
 
@@ -48,7 +48,7 @@ df_enriched = df_conformed \
 # COMMAND ----------
 
 # Write to conformed silver table
-target_table = "financial_lakehouse.silver.trading_systems_conformed"
+target_table = "financial_lakehouse.standardized.trading_systems_conformed"
 
 df_enriched.write \
     .format("delta") \

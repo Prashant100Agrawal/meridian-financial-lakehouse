@@ -10,7 +10,7 @@ from pyspark.sql.functions import *
 # COMMAND ----------
 
 # Read trading data
-df_trades = spark.table("financial_lakehouse.silver.trading_systems_conformed")
+df_trades = spark.table("financial_lakehouse.standardized.trading_systems_conformed")
 
 # COMMAND ----------
 
@@ -41,6 +41,6 @@ df_large_trades.write \
     .format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .saveAsTable("financial_lakehouse.gold.regulatory_large_trades")
+    .saveAsTable("financial_lakehouse.reporting.regulatory_large_trades")
 
 print(f"✅ Created regulatory large trades report: {df_large_trades.count()} records")

@@ -24,7 +24,7 @@ def log_dq_metrics(table_name, metric_name, metric_value, status):
     dq_log.write \
         .format("delta") \
         .mode("append") \
-        .saveAsTable("financial_lakehouse.gold.dq_metrics_log")
+        .saveAsTable("financial_lakehouse.reporting.dq_metrics_log")
     
     print(f"✅ Logged DQ metric: {metric_name} = {metric_value}")
 
@@ -32,7 +32,7 @@ def log_dq_metrics(table_name, metric_name, metric_value, status):
 
 # Example: Log metrics
 log_dq_metrics(
-    table_name="financial_lakehouse.silver.trading_systems_conformed",
+    table_name="financial_lakehouse.standardized.trading_systems_conformed",
     metric_name="record_count",
     metric_value=1000,
     status="PASS"

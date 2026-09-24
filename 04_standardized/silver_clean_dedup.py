@@ -14,7 +14,7 @@ from pyspark.sql.window import Window
 
 # DBTITLE 1,Read Bronze
 # Read from bronze
-df_bronze = spark.table("financial_lakehouse.bronze.trading_systems")
+df_bronze = spark.table("financial_lakehouse.operational.trading_systems")
 print(f"Bronze records: {df_bronze.count()}")
 
 # COMMAND ----------
@@ -56,7 +56,7 @@ df_clean.write \
     .format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .saveAsTable("financial_lakehouse.silver.trading_systems_clean")
+    .saveAsTable("financial_lakehouse.standardized.trading_systems_clean")
 
 print(f"✅ Written to silver.trading_systems_clean")
 

@@ -72,7 +72,7 @@
 # MAGIC       WHEN TIMESTAMPDIFF(HOUR, MAX(created_timestamp), CURRENT_TIMESTAMP()) <= 4 THEN 'Warning'
 # MAGIC       ELSE 'SLA Violation'
 # MAGIC     END as freshness_status
-# MAGIC   FROM financial_lakehouse.gold.account_performance
+# MAGIC   FROM financial_lakehouse.reporting.account_performance
 # MAGIC   GROUP BY table_catalog, table_schema, table_name
 # MAGIC )
 # MAGIC SELECT 
@@ -141,7 +141,7 @@
 # MAGIC   FROM system.access.audit
 # MAGIC   WHERE event_date >= CURRENT_DATE() - INTERVAL 30 DAYS
 # MAGIC     AND action_name = 'getTableData'
-# MAGIC     AND request_params.full_name_arg LIKE 'financial_lakehouse.gold.%'
+# MAGIC     AND request_params.full_name_arg LIKE 'financial_lakehouse.reporting.%'
 # MAGIC   GROUP BY check_hour, table_name
 # MAGIC )
 # MAGIC SELECT 

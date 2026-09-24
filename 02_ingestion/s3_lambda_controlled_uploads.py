@@ -139,7 +139,7 @@ print("✓ Validated stream function loaded")
 
 # DBTITLE 1,Example: Process Vendor Files
 # Example: Set up controlled ingestion for vendor files
-target_table = "financial_lakehouse.bronze.vendor_files_controlled"
+target_table = "financial_lakehouse.operational.vendor_files_controlled"
 
 # In production, Lambda would:
 # 1. Receive S3 event notification

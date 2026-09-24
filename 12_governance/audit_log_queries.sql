@@ -189,7 +189,7 @@
 # MAGIC FROM system.access.audit
 # MAGIC WHERE event_date >= CURRENT_DATE() - INTERVAL 30 DAYS
 # MAGIC   AND action_name = 'getTableData'
-# MAGIC   AND request_params.full_name_arg LIKE 'financial_lakehouse.gold.%'
+# MAGIC   AND request_params.full_name_arg LIKE 'financial_lakehouse.reporting.%'
 # MAGIC GROUP BY access_date, organization, table_name
 # MAGIC ORDER BY access_date DESC, access_count DESC;
 
@@ -216,9 +216,9 @@ audit_df = spark.sql("""
 """)
 
 # Save to Delta table for long-term storage
-audit_df.write.mode("overwrite").saveAsTable("financial_lakehouse.gold.audit_log_summary")
+audit_df.write.mode("overwrite").saveAsTable("financial_lakehouse.reporting.audit_log_summary")
 
-print("✅ Audit report exported to financial_lakehouse.gold.audit_log_summary")
+print("✅ Audit report exported to financial_lakehouse.reporting.audit_log_summary")
 
 # COMMAND ----------
 

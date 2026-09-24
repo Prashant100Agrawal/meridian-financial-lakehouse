@@ -16,22 +16,22 @@ dashboard_definition = {
     {
       "datasetRefName": "datasets/account_perf",
       "displayName": "Account Performance",
-      "sqlQuery": "SELECT acct_id, trade_date, num_trades, total_traded_value, num_instruments, buy_value, sell_value, net_position, created_timestamp FROM financial_lakehouse.gold.account_performance"
+      "sqlQuery": "SELECT acct_id, trade_date, num_trades, total_traded_value, num_instruments, buy_value, sell_value, net_position, created_timestamp FROM financial_lakehouse.reporting.account_performance"
     },
     {
       "datasetRefName": "datasets/daily_summary",
       "displayName": "Daily Trading Summary",
-      "sqlQuery": "SELECT trade_date, symbol, side, num_trades, total_quantity, total_value, avg_price, min_price, max_price, created_timestamp FROM financial_lakehouse.gold.daily_trading_summary"
+      "sqlQuery": "SELECT trade_date, symbol, side, num_trades, total_quantity, total_value, avg_price, min_price, max_price, created_timestamp FROM financial_lakehouse.reporting.daily_trading_summary"
     },
     {
       "datasetRefName": "datasets/top_net_positions",
       "displayName": "Top 20 Net Positions",
-      "sqlQuery": "SELECT acct_id, net_position FROM financial_lakehouse.gold.account_performance ORDER BY ABS(net_position) DESC LIMIT 20"
+      "sqlQuery": "SELECT acct_id, net_position FROM financial_lakehouse.reporting.account_performance ORDER BY ABS(net_position) DESC LIMIT 20"
     },
     {
       "datasetRefName": "datasets/top_accounts",
       "displayName": "Top 10 Accounts by Value",
-      "sqlQuery": "SELECT acct_id, num_trades, total_traded_value, buy_value, sell_value, net_position FROM financial_lakehouse.gold.account_performance ORDER BY total_traded_value DESC LIMIT 10"
+      "sqlQuery": "SELECT acct_id, num_trades, total_traded_value, buy_value, sell_value, net_position FROM financial_lakehouse.reporting.account_performance ORDER BY total_traded_value DESC LIMIT 10"
     }
   ],
   "pages": [

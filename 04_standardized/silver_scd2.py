@@ -46,15 +46,15 @@ from datetime import datetime, date
 # SCD Type 2 table configurations
 scd2_tables = {
     "accounts": {
-        "source": "financial_lakehouse.silver.accounts",  # From CDC processing
-        "target": "financial_lakehouse.silver.accounts_scd2",
+        "source": "financial_lakehouse.standardized.accounts",  # From CDC processing
+        "target": "financial_lakehouse.standardized.accounts_scd2",
         "business_key": ["account_id"],
         "tracked_columns": ["account_name", "account_type", "status", "balance", "owner"],
         "exclude_from_hash": ["silver_insert_timestamp", "silver_update_timestamp"]
     },
     "customers": {
-        "source": "financial_lakehouse.silver.customers",
-        "target": "financial_lakehouse.silver.customers_scd2",
+        "source": "financial_lakehouse.standardized.customers",
+        "target": "financial_lakehouse.standardized.customers_scd2",
         "business_key": ["customer_id"],
         "tracked_columns": ["customer_name", "email", "phone", "address", "risk_rating"],
         "exclude_from_hash": ["silver_insert_timestamp", "silver_update_timestamp"]

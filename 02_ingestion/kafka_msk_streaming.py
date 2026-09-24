@@ -139,7 +139,7 @@ print("✓ Message parsing configured")
 
 # DBTITLE 1,Delta Writer
 # Target table configuration
-target_table = "financial_lakehouse.bronze.trading_events_stream"
+target_table = "financial_lakehouse.operational.trading_events_stream"
 checkpoint_path = f"{checkpoint_base}/trading_events"
 
 # Write to Delta with streaming

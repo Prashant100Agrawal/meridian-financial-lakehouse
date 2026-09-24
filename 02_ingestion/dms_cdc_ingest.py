@@ -33,19 +33,19 @@ dms_base_path = "/Volumes/financial_lakehouse/raw/dms_cdc"
 source_tables = {
     "accounts": {
         "dms_path": f"{dms_base_path}/accounts",
-        "target_table": "financial_lakehouse.bronze.accounts",
+        "target_table": "financial_lakehouse.operational.accounts",
         "primary_keys": ["account_id"],
         "checkpoint": f"{dms_base_path}/checkpoints/accounts"
     },
     "transactions": {
         "dms_path": f"{dms_base_path}/transactions",
-        "target_table": "financial_lakehouse.bronze.transactions",
+        "target_table": "financial_lakehouse.operational.transactions",
         "primary_keys": ["transaction_id"],
         "checkpoint": f"{dms_base_path}/checkpoints/transactions"
     },
     "positions": {
         "dms_path": f"{dms_base_path}/positions",
-        "target_table": "financial_lakehouse.bronze.positions",
+        "target_table": "financial_lakehouse.operational.positions",
         "primary_keys": ["position_id"],
         "checkpoint": f"{dms_base_path}/checkpoints/positions"
     }

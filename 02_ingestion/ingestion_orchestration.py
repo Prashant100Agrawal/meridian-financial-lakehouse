@@ -36,7 +36,7 @@ ingestion_channels = {
         "type": "Streaming",
         "source": "Landing Files",
         "frequency": "Continuous",
-        "target": "financial_lakehouse.bronze",
+        "target": "financial_lakehouse.operational",
         "notebook": "streaming_ingest",
         "status": "Active"
     },
@@ -45,7 +45,7 @@ ingestion_channels = {
         "type": "Streaming",
         "source": "Kafka Topics",
         "frequency": "Real-time",
-        "target": "financial_lakehouse.bronze.trading_events_stream",
+        "target": "financial_lakehouse.operational.trading_events_stream",
         "notebook": "kafka_msk_streaming",
         "status": "Configured"
     },
@@ -54,7 +54,7 @@ ingestion_channels = {
         "type": "Streaming",
         "source": "Database Changes",
         "frequency": "Real-time",
-        "target": "financial_lakehouse.bronze",
+        "target": "financial_lakehouse.operational",
         "notebook": "dms_cdc_ingest",
         "status": "Configured"
     },
@@ -63,7 +63,7 @@ ingestion_channels = {
         "type": "Streaming",
         "source": "Multiple Formats",
         "frequency": "Continuous",
-        "target": "financial_lakehouse.bronze",
+        "target": "financial_lakehouse.operational",
         "notebook": "autoloader_enhanced",
         "status": "Configured"
     },
@@ -72,7 +72,7 @@ ingestion_channels = {
         "type": "Event-driven",
         "source": "S3/Volume Events",
         "frequency": "On file arrival",
-        "target": "financial_lakehouse.bronze",
+        "target": "financial_lakehouse.operational",
         "notebook": "s3_lambda_controlled_uploads",
         "status": "Configured"
     }
@@ -89,9 +89,9 @@ print("DATA FRESHNESS REPORT")
 print("="*80)
 
 data_sources = [
-    ("Trading Systems", "financial_lakehouse.bronze.trading_systems"),
+    ("Trading Systems", "financial_lakehouse.operational.trading_systems"),
     ("Raw Trading Stream", "financial_lakehouse.raw.trading_systems_stream"),
-    ("Silver Conformed", "financial_lakehouse.silver.trading_systems_conformed")
+    ("Silver Conformed", "financial_lakehouse.standardized.trading_systems_conformed")
 ]
 
 for source_name, table_name in data_sources:

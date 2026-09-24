@@ -9,7 +9,7 @@ from pyspark.sql.functions import *
 
 # COMMAND ----------
 
-silver_table = "financial_lakehouse.silver.trading_systems_clean"
+silver_table = "financial_lakehouse.standardized.trading_systems_clean"
 df = spark.table(silver_table)
 
 # COMMAND ----------

@@ -28,11 +28,11 @@ w = WorkspaceClient()
 
 # MAGIC %sql
 # MAGIC -- Create tags for data sensitivity
-# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.gold.data_sensitivity;
-# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.gold.data_domain;
-# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.gold.pii_level;
-# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.gold.retention_period;
-# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.gold.data_owner;
+# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.reporting.data_sensitivity;
+# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.reporting.data_domain;
+# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.reporting.pii_level;
+# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.reporting.retention_period;
+# MAGIC CREATE TAG IF NOT EXISTS financial_lakehouse.reporting.data_owner;
 
 # COMMAND ----------
 
@@ -43,7 +43,7 @@ w = WorkspaceClient()
 
 # MAGIC %sql
 # MAGIC -- Tag account_performance table
-# MAGIC ALTER TABLE financial_lakehouse.gold.account_performance
+# MAGIC ALTER TABLE financial_lakehouse.reporting.account_performance
 # MAGIC SET TAGS (
 # MAGIC   'data_sensitivity' = 'Confidential',
 # MAGIC   'data_domain' = 'Analytics',
@@ -53,7 +53,7 @@ w = WorkspaceClient()
 # MAGIC );
 # MAGIC
 # MAGIC -- Tag daily_trading_summary
-# MAGIC ALTER TABLE financial_lakehouse.gold.daily_trading_summary
+# MAGIC ALTER TABLE financial_lakehouse.reporting.daily_trading_summary
 # MAGIC SET TAGS (
 # MAGIC   'data_sensitivity' = 'Internal',
 # MAGIC   'data_domain' = 'Trading',
@@ -127,10 +127,10 @@ auto_tag_tables()
 
 # MAGIC %sql
 # MAGIC -- Example: Tag specific columns with PII level
-# MAGIC -- ALTER TABLE financial_lakehouse.gold.customers
+# MAGIC -- ALTER TABLE financial_lakehouse.reporting.customers
 # MAGIC -- ALTER COLUMN email SET TAGS ('pii_level' = 'High', 'data_type' = 'Email');
 # MAGIC --
-# MAGIC -- ALTER TABLE financial_lakehouse.gold.customers
+# MAGIC -- ALTER TABLE financial_lakehouse.reporting.customers
 # MAGIC -- ALTER COLUMN ssn SET TAGS ('pii_level' = 'High', 'data_type' = 'SSN');
 
 # COMMAND ----------

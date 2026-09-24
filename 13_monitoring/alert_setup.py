@@ -82,7 +82,7 @@ for alert_type, config in alert_config.items():
 
 # MAGIC %sql
 # MAGIC -- Create alert query for pipeline failures
-# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.gold.pipeline_failure_alerts AS
+# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.reporting.pipeline_failure_alerts AS
 # MAGIC SELECT 
 # MAGIC   pipeline_name,
 # MAGIC   update_id,
@@ -104,7 +104,7 @@ for alert_type, config in alert_config.items():
 
 # MAGIC %sql
 # MAGIC -- Pipeline runtime SLA violations
-# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.gold.pipeline_sla_violations AS
+# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.reporting.pipeline_sla_violations AS
 # MAGIC SELECT 
 # MAGIC   pipeline_name,
 # MAGIC   update_id,
@@ -122,13 +122,13 @@ for alert_type, config in alert_config.items():
 
 # MAGIC %sql
 # MAGIC -- Data freshness SLA violations
-# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.gold.freshness_sla_violations AS
+# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.reporting.freshness_sla_violations AS
 # MAGIC WITH table_freshness AS (
 # MAGIC   SELECT 
 # MAGIC     'account_performance' as table_name,
 # MAGIC     MAX(created_timestamp) as last_updated,
 # MAGIC     TIMESTAMPDIFF(HOUR, MAX(created_timestamp), CURRENT_TIMESTAMP()) as hours_stale
-# MAGIC   FROM financial_lakehouse.gold.account_performance
+# MAGIC   FROM financial_lakehouse.reporting.account_performance
 # MAGIC )
 # MAGIC SELECT 
 # MAGIC   table_name,
@@ -147,7 +147,7 @@ for alert_type, config in alert_config.items():
 
 # MAGIC %sql
 # MAGIC -- Data quality rule failures
-# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.gold.dq_failure_alerts AS
+# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.reporting.dq_failure_alerts AS
 # MAGIC SELECT 
 # MAGIC   table_name,
 # MAGIC   rule_name,
@@ -158,7 +158,7 @@ for alert_type, config in alert_config.items():
 # MAGIC   CONCAT('Data Quality Alert: ', table_name, ' - ', rule_name, ' failed ', 
 # MAGIC          failed_records, ' / ', total_records, ' records (', 
 # MAGIC          ROUND(100.0 * failed_records / total_records, 2), '%)') as alert_message
-# MAGIC FROM financial_lakehouse.gold.dq_check_results
+# MAGIC FROM financial_lakehouse.reporting.dq_check_results
 # MAGIC WHERE check_timestamp >= CURRENT_TIMESTAMP() - INTERVAL 24 HOURS
 # MAGIC   AND (100.0 * failed_records / total_records) > 5
 # MAGIC ORDER BY failure_rate_pct DESC;
@@ -172,7 +172,7 @@ for alert_type, config in alert_config.items():
 
 # MAGIC %sql
 # MAGIC -- DBU usage exceeding threshold
-# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.gold.cost_threshold_alerts AS
+# MAGIC CREATE OR REPLACE VIEW financial_lakehouse.reporting.cost_threshold_alerts AS
 # MAGIC WITH daily_usage AS (
 # MAGIC   SELECT 
 # MAGIC     usage_date,
@@ -244,35 +244,35 @@ def check_and_send_alerts():
     
     # Pipeline failures
     if alert_config['pipeline_failure']['enabled']:
-        failures = spark.sql("SELECT * FROM financial_lakehouse.gold.pipeline_failure_alerts").collect()
+        failures = spark.sql("SELECT * FROM financial_lakehouse.reporting.pipeline_failure_alerts").collect()
         for failure in failures:
             send_alert('pipeline_failure', failure['alert_message'], alert_config['pipeline_failure']['channels'])
             alerts_sent += 1
     
     # Pipeline SLA violations
     if alert_config['sla_violation_pipeline']['enabled']:
-        violations = spark.sql("SELECT * FROM financial_lakehouse.gold.pipeline_sla_violations").collect()
+        violations = spark.sql("SELECT * FROM financial_lakehouse.reporting.pipeline_sla_violations").collect()
         for violation in violations:
             send_alert('sla_violation', violation['alert_message'], alert_config['sla_violation_pipeline']['channels'])
             alerts_sent += 1
     
     # Data freshness SLA violations
     if alert_config['sla_violation_freshness']['enabled']:
-        freshness_violations = spark.sql("SELECT * FROM financial_lakehouse.gold.freshness_sla_violations").collect()
+        freshness_violations = spark.sql("SELECT * FROM financial_lakehouse.reporting.freshness_sla_violations").collect()
         for violation in freshness_violations:
             send_alert('freshness_violation', violation['alert_message'], alert_config['sla_violation_freshness']['channels'])
             alerts_sent += 1
     
     # Data quality failures
     if alert_config['data_quality']['enabled']:
-        dq_failures = spark.sql("SELECT * FROM financial_lakehouse.gold.dq_failure_alerts").collect()
+        dq_failures = spark.sql("SELECT * FROM financial_lakehouse.reporting.dq_failure_alerts").collect()
         for failure in dq_failures:
             send_alert('data_quality_failure', failure['alert_message'], alert_config['data_quality']['channels'])
             alerts_sent += 1
     
     # Cost threshold breaches
     if alert_config['cost_threshold']['enabled']:
-        cost_alerts = spark.sql("SELECT * FROM financial_lakehouse.gold.cost_threshold_alerts").collect()
+        cost_alerts = spark.sql("SELECT * FROM financial_lakehouse.reporting.cost_threshold_alerts").collect()
         for alert in cost_alerts:
             send_alert('cost_threshold', alert['alert_message'], alert_config['cost_threshold']['channels'])
             alerts_sent += 1

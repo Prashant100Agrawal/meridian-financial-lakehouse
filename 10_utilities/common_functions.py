@@ -49,4 +49,4 @@ def log_pipeline_run(pipeline_name, status, record_count=None, error_msg=None):
     log_entry.write \
         .format("delta") \
         .mode("append") \
-        .saveAsTable("financial_lakehouse.gold.pipeline_run_log")
+        .saveAsTable("financial_lakehouse.reporting.pipeline_run_log")

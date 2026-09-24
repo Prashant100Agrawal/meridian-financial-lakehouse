@@ -29,36 +29,36 @@ retention_policies = {
     'trading_data': {
         'retention_days': 2555,  # 7 years
         'tables': [
-            'financial_lakehouse.bronze.trading_systems',
-            'financial_lakehouse.silver.trading_systems_clean',
-            'financial_lakehouse.gold.daily_trading_summary'
+            'financial_lakehouse.operational.trading_systems',
+            'financial_lakehouse.standardized.trading_systems_clean',
+            'financial_lakehouse.reporting.daily_trading_summary'
         ]
     },
     'risk_compliance': {
         'retention_days': 2555,  # 7 years
         'tables': [
-            'financial_lakehouse.gold.risk_measures',
-            'financial_lakehouse.gold.regulatory_reporting'
+            'financial_lakehouse.reporting.risk_measures',
+            'financial_lakehouse.reporting.regulatory_reporting'
         ]
     },
     'analytics': {
         'retention_days': 1825,  # 5 years
         'tables': [
-            'financial_lakehouse.gold.account_performance',
-            'financial_lakehouse.gold.portfolio_performance'
+            'financial_lakehouse.reporting.account_performance',
+            'financial_lakehouse.reporting.portfolio_performance'
         ]
     },
     'operational_logs': {
         'retention_days': 90,  # 90 days
         'tables': [
-            'financial_lakehouse.bronze.api_ingestion_logs',
-            'financial_lakehouse.bronze.pipeline_execution_logs'
+            'financial_lakehouse.operational.api_ingestion_logs',
+            'financial_lakehouse.operational.pipeline_execution_logs'
         ]
     },
     'staging_temp': {
         'retention_days': 7,  # 7 days
         'tables': [
-            'financial_lakehouse.bronze.staging_temp'
+            'financial_lakehouse.operational.staging_temp'
         ]
     }
 }
@@ -77,7 +77,7 @@ for policy_name, config in retention_policies.items():
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS financial_lakehouse.gold.data_retention_policies (
+# MAGIC CREATE TABLE IF NOT EXISTS financial_lakehouse.reporting.data_retention_policies (
 # MAGIC   policy_name STRING,
 # MAGIC   table_name STRING,
 # MAGIC   retention_days INT,
@@ -112,7 +112,7 @@ for policy_name, config in retention_policies.items():
 
 # Write to table
 policy_df = spark.createDataFrame(policy_records)
-policy_df.write.mode("overwrite").saveAsTable("financial_lakehouse.gold.data_retention_policies")
+policy_df.write.mode("overwrite").saveAsTable("financial_lakehouse.reporting.data_retention_policies")
 
 print(f"✅ Created {len(policy_records)} retention policies")
 
@@ -162,7 +162,7 @@ def enforce_retention_policy(table_name, retention_days, date_column='created_ti
         
         # Update retention policy table
         update_query = f"""
-            UPDATE financial_lakehouse.gold.data_retention_policies
+            UPDATE financial_lakehouse.reporting.data_retention_policies
             SET last_cleanup_date = CURRENT_TIMESTAMP(),
                 records_deleted = records_deleted + {records_to_delete},
                 updated_at = CURRENT_TIMESTAMP()
@@ -269,7 +269,7 @@ print('='*60)
 # MAGIC #         WHEN DATEDIFF(CURRENT_DATE(), DATE(last_cleanup_date)) > 30 THEN 'Overdue'
 # MAGIC #         ELSE 'Current'
 # MAGIC #     END as cleanup_status
-# MAGIC # FROM financial_lakehouse.gold.data_retention_policies
+# MAGIC # FROM financial_lakehouse.reporting.data_retention_policies
 # MAGIC # ORDER BY policy_name, table_name;
 
 # COMMAND ----------

@@ -78,7 +78,7 @@ def var_calculations():
 )
 def large_trade_report():
     """Monitor large trades for regulatory compliance"""
-    trading_df = spark.table("financial_lakehouse.silver.trading_systems_conformed")
+    trading_df = spark.table("financial_lakehouse.standardized.trading_systems_conformed")
     
     return (
         trading_df
@@ -112,7 +112,7 @@ def large_trade_report():
 )
 def trade_audit_trail():
     """Create audit trail for all trades"""
-    trading_df = spark.table("financial_lakehouse.silver.trading_systems_conformed")
+    trading_df = spark.table("financial_lakehouse.standardized.trading_systems_conformed")
     
     return (
         trading_df

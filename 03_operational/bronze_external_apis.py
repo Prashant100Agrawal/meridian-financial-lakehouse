@@ -10,7 +10,7 @@ from pyspark.sql.functions import *
 # COMMAND ----------
 
 raw_path = "/Volumes/financial_lakehouse/raw/landing_files/market_data"
-bronze_table = "financial_lakehouse.bronze.market_data"
+bronze_table = "financial_lakehouse.operational.market_data"
 
 # COMMAND ----------
 

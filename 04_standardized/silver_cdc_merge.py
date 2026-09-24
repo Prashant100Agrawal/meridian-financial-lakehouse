@@ -31,25 +31,25 @@ import json
 # CDC Table Configurations
 cdc_tables = {
     "accounts": {
-        "source": "financial_lakehouse.bronze.accounts",
-        "target": "financial_lakehouse.silver.accounts",
+        "source": "financial_lakehouse.operational.accounts",
+        "target": "financial_lakehouse.standardized.accounts",
         "primary_keys": ["account_id"],
         "watermark_col": "ingestion_timestamp",
-        "watermark_table": "financial_lakehouse.silver.cdc_watermarks"
+        "watermark_table": "financial_lakehouse.standardized.cdc_watermarks"
     },
     "transactions": {
-        "source": "financial_lakehouse.bronze.transactions",
-        "target": "financial_lakehouse.silver.transactions",
+        "source": "financial_lakehouse.operational.transactions",
+        "target": "financial_lakehouse.standardized.transactions",
         "primary_keys": ["transaction_id"],
         "watermark_col": "ingestion_timestamp",
-        "watermark_table": "financial_lakehouse.silver.cdc_watermarks"
+        "watermark_table": "financial_lakehouse.standardized.cdc_watermarks"
     },
     "positions": {
-        "source": "financial_lakehouse.bronze.positions",
-        "target": "financial_lakehouse.silver.positions",
+        "source": "financial_lakehouse.operational.positions",
+        "target": "financial_lakehouse.standardized.positions",
         "primary_keys": ["position_id", "position_date"],
         "watermark_col": "ingestion_timestamp",
-        "watermark_table": "financial_lakehouse.silver.cdc_watermarks"
+        "watermark_table": "financial_lakehouse.standardized.cdc_watermarks"
     }
 }
 
@@ -66,7 +66,7 @@ print("✓ CDC configurations loaded")
 
 # DBTITLE 1,Create Watermark Table
 # Create watermark table if it doesn't exist
-watermark_table = "financial_lakehouse.silver.cdc_watermarks"
+watermark_table = "financial_lakehouse.standardized.cdc_watermarks"
 
 spark.sql(f"""
     CREATE TABLE IF NOT EXISTS {watermark_table} (

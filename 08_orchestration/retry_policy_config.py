@@ -175,7 +175,7 @@ def run_pipeline_with_retry(pipeline_id):
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS financial_lakehouse.gold.retry_metrics (
+# MAGIC CREATE TABLE IF NOT EXISTS financial_lakehouse.reporting.retry_metrics (
 # MAGIC   task_name STRING,
 # MAGIC   execution_id STRING,
 # MAGIC   attempt_number INT,
@@ -205,7 +205,7 @@ def log_retry_attempt(task_name, execution_id, attempt, status, error_type=None,
         'timestamp': datetime.now()
     }])
     
-    log_entry.write.mode("append").saveAsTable("financial_lakehouse.gold.retry_metrics")
+    log_entry.write.mode("append").saveAsTable("financial_lakehouse.reporting.retry_metrics")
 
 # COMMAND ----------
 

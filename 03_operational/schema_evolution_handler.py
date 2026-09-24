@@ -110,7 +110,7 @@ def evolve_table_schema(table_name, new_df, merge_schema=True):
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS financial_lakehouse.gold.schema_evolution_log (
+# MAGIC CREATE TABLE IF NOT EXISTS financial_lakehouse.reporting.schema_evolution_log (
 # MAGIC   table_name STRING,
 # MAGIC   change_type STRING,  -- 'COLUMN_ADDED', 'COLUMN_REMOVED', 'TYPE_CHANGED'
 # MAGIC   column_name STRING,
@@ -138,7 +138,7 @@ def log_schema_change(table_name, change_type, column_name, old_type=None, new_t
         'change_metadata': metadata
     }])
     
-    log_entry.write.mode("append").saveAsTable("financial_lakehouse.gold.schema_evolution_log")
+    log_entry.write.mode("append").saveAsTable("financial_lakehouse.reporting.schema_evolution_log")
 
 # COMMAND ----------
 
@@ -149,7 +149,7 @@ def log_schema_change(table_name, change_type, column_name, old_type=None, new_t
 
 # Example: Load new trading data with potential schema changes
 # new_trading_data = spark.read.json("/path/to/new/trading/data")
-# evolve_table_schema('financial_lakehouse.bronze.trading_systems', new_trading_data)
+# evolve_table_schema('financial_lakehouse.operational.trading_systems', new_trading_data)
 
 # COMMAND ----------
 

@@ -19,7 +19,7 @@ class TestDataQuality(unittest.TestCase):
     
     def test_trading_data_completeness(self):
         """Test that trading data has no null critical fields"""
-        df = self.spark.table("financial_lakehouse.silver.trading_systems_conformed")
+        df = self.spark.table("financial_lakehouse.standardized.trading_systems_conformed")
         
         null_txn_ids = df.filter("txn_id IS NULL").count()
         null_acct_ids = df.filter("acct_id IS NULL").count()
@@ -31,14 +31,14 @@ class TestDataQuality(unittest.TestCase):
     
     def test_price_validity(self):
         """Test that prices are positive"""
-        df = self.spark.table("financial_lakehouse.silver.trading_systems_conformed")
+        df = self.spark.table("financial_lakehouse.standardized.trading_systems_conformed")
         
         negative_prices = df.filter("unit_price <= 0").count()
         self.assertEqual(negative_prices, 0, "Found negative or zero prices")
     
     def test_side_values(self):
         """Test that side values are valid"""
-        df = self.spark.table("financial_lakehouse.silver.trading_systems_conformed")
+        df = self.spark.table("financial_lakehouse.standardized.trading_systems_conformed")
         
         invalid_sides = df.filter("side NOT IN ('BUY', 'SELL')").count()
         self.assertEqual(invalid_sides, 0, "Found invalid side values")

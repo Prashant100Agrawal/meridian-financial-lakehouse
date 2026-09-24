@@ -37,19 +37,19 @@ source_configs = {
     "vendor_files": {
         "path": f"{landing_base}/vendor_files",
         "format": "csv",
-        "target": "financial_lakehouse.bronze.vendor_files_stream",
+        "target": "financial_lakehouse.operational.vendor_files_stream",
         "checkpoint": f"{checkpoint_base}/vendor_files"
     },
     "custody_reports": {
         "path": f"{landing_base}/custody_reports",
         "format": "json",
-        "target": "financial_lakehouse.bronze.custody_reports_stream",
+        "target": "financial_lakehouse.operational.custody_reports_stream",
         "checkpoint": f"{checkpoint_base}/custody_reports"
     },
     "trade_confirmations": {
         "path": f"{landing_base}/trade_confirmations",
         "format": "parquet",
-        "target": "financial_lakehouse.bronze.trade_confirmations_stream",
+        "target": "financial_lakehouse.operational.trade_confirmations_stream",
         "checkpoint": f"{checkpoint_base}/trade_confirmations"
     }
 }

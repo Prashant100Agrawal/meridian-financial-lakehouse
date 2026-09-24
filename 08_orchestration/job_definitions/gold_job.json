@@ -4,7 +4,7 @@
     {
       "task_key": "gold_analytics",
       "notebook_task": {
-        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_financial_analytics",
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_reporting/gold_financial_analytics",
         "source": "GIT"
       },
       "job_cluster_key": "default_cluster"
@@ -13,7 +13,7 @@
       "task_key": "gold_risk",
       "depends_on": [{"task_key": "gold_analytics"}],
       "notebook_task": {
-        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_risk_measures",
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_reporting/gold_risk_measures",
         "source": "GIT"
       },
       "job_cluster_key": "default_cluster"
@@ -22,7 +22,7 @@
       "task_key": "gold_regulatory",
       "depends_on": [{"task_key": "gold_risk"}],
       "notebook_task": {
-        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_regulatory_reporting",
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_reporting/gold_regulatory_reporting",
         "source": "GIT"
       },
       "job_cluster_key": "default_cluster"

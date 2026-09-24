@@ -10,7 +10,7 @@ from pyspark.sql.functions import *
 # COMMAND ----------
 
 # Read risk metrics from bronze
-df_risk = spark.table("financial_lakehouse.bronze.risk_metrics") if spark.catalog.tableExists("financial_lakehouse.bronze.risk_metrics") else None
+df_risk = spark.table("financial_lakehouse.operational.risk_metrics") if spark.catalog.tableExists("financial_lakehouse.operational.risk_metrics") else None
 
 if df_risk:
     # Aggregate risk metrics
@@ -28,7 +28,7 @@ if df_risk:
         .format("delta") \
         .mode("overwrite") \
         .option("overwriteSchema", "true") \
-        .saveAsTable("financial_lakehouse.gold.risk_summary")
+        .saveAsTable("financial_lakehouse.reporting.risk_summary")
     
     print(f"✅ Created risk summary: {df_risk_summary.count()} records")
 else:

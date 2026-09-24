@@ -73,7 +73,7 @@ resources:
           depends_on:
             - task_key: ingestion
           notebook_task:
-            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_bronze/bronze_trading_systems
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_operational/bronze_trading_systems
             source: WORKSPACE
           timeout_seconds: 600
           max_retries: 3
@@ -82,7 +82,7 @@ resources:
           depends_on:
             - task_key: ingestion
           notebook_task:
-            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_bronze/bronze_external_apis
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_operational/bronze_external_apis
             source: WORKSPACE
           timeout_seconds: 600
           max_retries: 3
@@ -92,7 +92,7 @@ resources:
             - task_key: bronze_trading_systems
             - task_key: bronze_external_apis
           notebook_task:
-            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_cleanse_deduplicate
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_standardized/silver_cleanse_deduplicate
             source: WORKSPACE
           timeout_seconds: 600
           max_retries: 3
@@ -101,7 +101,7 @@ resources:
           depends_on:
             - task_key: silver_cleanse
           notebook_task:
-            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_data_quality_checks
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_standardized/silver_data_quality_checks
             source: WORKSPACE
           timeout_seconds: 600
           max_retries: 3
@@ -110,7 +110,7 @@ resources:
           depends_on:
             - task_key: silver_dq_checks
           notebook_task:
-            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_conform_enrich
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_standardized/silver_conform_enrich
             source: WORKSPACE
           timeout_seconds: 600
           max_retries: 3
@@ -119,7 +119,7 @@ resources:
           depends_on:
             - task_key: silver_conform
           notebook_task:
-            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_financial_analytics
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_reporting/gold_financial_analytics
             source: WORKSPACE
           timeout_seconds: 600
           max_retries: 3
@@ -128,7 +128,7 @@ resources:
           depends_on:
             - task_key: silver_conform
           notebook_task:
-            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_risk_measures
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_reporting/gold_risk_measures
             source: WORKSPACE
           timeout_seconds: 600
           max_retries: 3
@@ -137,7 +137,7 @@ resources:
           depends_on:
             - task_key: silver_conform
           notebook_task:
-            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_gold/gold_regulatory_reporting
+            notebook_path: /Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/05_reporting/gold_regulatory_reporting
             source: WORKSPACE
           timeout_seconds: 600
           max_retries: 3

@@ -29,7 +29,7 @@ from pyspark.sql.types import *
 def daily_nav():
     """Calculate daily NAV from trading data"""
     # Read from Lakehouse 1 silver layer
-    trading_df = spark.table("financial_lakehouse.silver.trading_systems_conformed")
+    trading_df = spark.table("financial_lakehouse.standardized.trading_systems_conformed")
     
     return (
         trading_df
@@ -58,7 +58,7 @@ def daily_nav():
 )
 def profit_loss():
     """Calculate P&L metrics"""
-    trading_df = spark.table("financial_lakehouse.silver.trading_systems_conformed")
+    trading_df = spark.table("financial_lakehouse.standardized.trading_systems_conformed")
     
     return (
         trading_df

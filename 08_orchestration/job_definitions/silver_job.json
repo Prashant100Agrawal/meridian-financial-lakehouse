@@ -4,7 +4,7 @@
     {
       "task_key": "silver_cleanse",
       "notebook_task": {
-        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_cleanse_deduplicate",
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_standardized/silver_cleanse_deduplicate",
         "source": "GIT"
       },
       "job_cluster_key": "default_cluster"
@@ -13,7 +13,7 @@
       "task_key": "silver_quality_checks",
       "depends_on": [{"task_key": "silver_cleanse"}],
       "notebook_task": {
-        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_data_quality_checks",
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_standardized/silver_data_quality_checks",
         "source": "GIT"
       },
       "job_cluster_key": "default_cluster"
@@ -22,7 +22,7 @@
       "task_key": "silver_conform",
       "depends_on": [{"task_key": "silver_quality_checks"}],
       "notebook_task": {
-        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_silver/silver_conform_enrich",
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/04_standardized/silver_conform_enrich",
         "source": "GIT"
       },
       "job_cluster_key": "default_cluster"

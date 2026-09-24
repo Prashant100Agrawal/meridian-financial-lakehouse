@@ -11,7 +11,7 @@ SELECT
     SUM(CASE WHEN side = 'BUY' THEN qty ELSE -qty END) as net_position,
     SUM(CASE WHEN side = 'BUY' THEN total_value ELSE -total_value END) as net_exposure,
     COUNT(DISTINCT acct_id) as num_accounts
-FROM financial_lakehouse.silver.trading_systems_conformed
+FROM financial_lakehouse.standardized.trading_systems_conformed
 GROUP BY symbol
 HAVING ABS(SUM(CASE WHEN side = 'BUY' THEN qty ELSE -qty END)) > 100
 ORDER BY ABS(net_exposure) DESC;
@@ -25,7 +25,7 @@ SELECT
     SUM(CASE WHEN side = 'BUY' THEN total_value ELSE 0 END) as long_exposure,
     SUM(CASE WHEN side = 'SELL' THEN total_value ELSE 0 END) as short_exposure,
     SUM(CASE WHEN side = 'BUY' THEN total_value ELSE -total_value END) as net_exposure
-FROM financial_lakehouse.silver.trading_systems_conformed
+FROM financial_lakehouse.standardized.trading_systems_conformed
 GROUP BY acct_id
 ORDER BY ABS(net_exposure) DESC
 LIMIT 20;
@@ -39,6 +39,6 @@ SELECT
     SUM(total_value) as total_volume,
     AVG(total_value) as avg_trade_size,
     COUNT(DISTINCT acct_id) as active_accounts
-FROM financial_lakehouse.silver.trading_systems_conformed
+FROM financial_lakehouse.standardized.trading_systems_conformed
 GROUP BY trade_hour
 ORDER BY trade_hour;

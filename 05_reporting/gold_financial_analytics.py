@@ -11,7 +11,7 @@ from pyspark.sql.window import Window
 # COMMAND ----------
 
 # Read from silver
-df_silver = spark.table("financial_lakehouse.silver.trading_systems_conformed")
+df_silver = spark.table("financial_lakehouse.standardized.trading_systems_conformed")
 
 # COMMAND ----------
 
@@ -38,7 +38,7 @@ df_daily_summary.write \
     .format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .saveAsTable("financial_lakehouse.gold.daily_trading_summary")
+    .saveAsTable("financial_lakehouse.reporting.daily_trading_summary")
 
 print(f"✅ Created daily trading summary: {df_daily_summary.count()} records")
 
@@ -66,6 +66,6 @@ df_account_perf.write \
     .format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
-    .saveAsTable("financial_lakehouse.gold.account_performance")
+    .saveAsTable("financial_lakehouse.reporting.account_performance")
 
 print(f"✅ Created account performance: {df_account_perf.count()} records")

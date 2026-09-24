@@ -11,7 +11,7 @@ from pyspark.sql.window import Window
 # COMMAND ----------
 
 # Read from bronze
-bronze_table = "financial_lakehouse.bronze.trading_systems"
+bronze_table = "financial_lakehouse.operational.trading_systems"
 df_bronze = spark.table(bronze_table)
 
 # COMMAND ----------
@@ -59,7 +59,7 @@ df_silver = df_deduped \
 # COMMAND ----------
 
 # Write to silver table
-silver_table = "financial_lakehouse.silver.trading_systems_clean"
+silver_table = "financial_lakehouse.standardized.trading_systems_clean"
 
 df_silver.write \
     .format("delta") \

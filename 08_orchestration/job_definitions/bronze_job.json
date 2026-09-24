@@ -4,7 +4,7 @@
     {
       "task_key": "bronze_trading",
       "notebook_task": {
-        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_bronze/bronze_trading_systems",
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_operational/bronze_trading_systems",
         "source": "GIT"
       },
       "job_cluster_key": "default_cluster"
@@ -13,7 +13,7 @@
       "task_key": "bronze_market_data",
       "depends_on": [{"task_key": "bronze_trading"}],
       "notebook_task": {
-        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_bronze/bronze_external_apis",
+        "notebook_path": "/Repos/prashant.agrawal100@gmail.com/meridian-financial-lakehouse/03_operational/bronze_external_apis",
         "source": "GIT"
       },
       "job_cluster_key": "default_cluster"

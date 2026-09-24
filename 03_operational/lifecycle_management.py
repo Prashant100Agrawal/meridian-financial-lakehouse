@@ -166,7 +166,7 @@ def run_bronze_maintenance(dry_run=True):
     print(f"Mode: {'DRY RUN' if dry_run else 'PRODUCTION'}\n")
     
     for table_name, config in bronze_lifecycle_config.items():
-        full_table_name = f"financial_lakehouse.bronze.{table_name}"
+        full_table_name = f"financial_lakehouse.operational.{table_name}"
         
         print(f"\n📦 Processing: {full_table_name}")
         print("-"*80)

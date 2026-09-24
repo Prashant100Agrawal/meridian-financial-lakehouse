@@ -22,7 +22,7 @@
 
 # MAGIC %sql
 # MAGIC -- Function to detect if column contains PII
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.is_pii_column(column_name STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.is_pii_column(column_name STRING)
 # MAGIC RETURNS BOOLEAN
 # MAGIC RETURN
 # MAGIC   column_name RLIKE '(ssn|tax_id|email|phone|address|card_number|account_holder|customer_name)';
@@ -36,7 +36,7 @@
 
 # MAGIC %sql
 # MAGIC -- Full email masking
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_email_full(email STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_email_full(email STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -46,7 +46,7 @@
 # MAGIC   END;
 # MAGIC
 # MAGIC -- Partial email masking (show first char + domain)
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_email_partial(email STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_email_partial(email STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -64,7 +64,7 @@
 
 # MAGIC %sql
 # MAGIC -- Mask phone numbers (show last 4 digits)
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_phone(phone STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_phone(phone STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -82,7 +82,7 @@
 
 # MAGIC %sql
 # MAGIC -- Mask SSN (show last 4 digits)
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_ssn_last4(ssn STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_ssn_last4(ssn STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -92,7 +92,7 @@
 # MAGIC   END;
 # MAGIC
 # MAGIC -- Full SSN masking
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_ssn_full(ssn STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_ssn_full(ssn STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -110,7 +110,7 @@
 
 # MAGIC %sql
 # MAGIC -- Mask credit card (show last 4 digits)
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_credit_card(card STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_credit_card(card STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -128,7 +128,7 @@
 
 # MAGIC %sql
 # MAGIC -- Mask street address (show only city/state)
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_address(address STRING, city STRING, state STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_address(address STRING, city STRING, state STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -146,7 +146,7 @@
 
 # MAGIC %sql
 # MAGIC -- Mask account holder name (show initials)
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_name_initials(full_name STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_name_initials(full_name STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -161,7 +161,7 @@
 # MAGIC   END;
 # MAGIC
 # MAGIC -- Full name masking
-# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.gold.mask_name_full(full_name STRING)
+# MAGIC CREATE OR REPLACE FUNCTION financial_lakehouse.reporting.mask_name_full(full_name STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN
 # MAGIC   CASE
@@ -179,14 +179,14 @@
 
 # MAGIC %sql
 # MAGIC -- Example: Apply to a customer table
-# MAGIC -- ALTER TABLE financial_lakehouse.gold.customers
-# MAGIC -- ALTER COLUMN email SET MASK financial_lakehouse.gold.mask_email_full;
+# MAGIC -- ALTER TABLE financial_lakehouse.reporting.customers
+# MAGIC -- ALTER COLUMN email SET MASK financial_lakehouse.reporting.mask_email_full;
 # MAGIC --
-# MAGIC -- ALTER TABLE financial_lakehouse.gold.customers
-# MAGIC -- ALTER COLUMN phone SET MASK financial_lakehouse.gold.mask_phone;
+# MAGIC -- ALTER TABLE financial_lakehouse.reporting.customers
+# MAGIC -- ALTER COLUMN phone SET MASK financial_lakehouse.reporting.mask_phone;
 # MAGIC --
-# MAGIC -- ALTER TABLE financial_lakehouse.gold.customers
-# MAGIC -- ALTER COLUMN ssn SET MASK financial_lakehouse.gold.mask_ssn_last4;
+# MAGIC -- ALTER TABLE financial_lakehouse.reporting.customers
+# MAGIC -- ALTER COLUMN ssn SET MASK financial_lakehouse.reporting.mask_ssn_last4;
 
 # COMMAND ----------
 

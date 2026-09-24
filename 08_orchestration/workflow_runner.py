@@ -34,22 +34,22 @@ def run_pipeline():
         
         # Step 2: Bronze layer
         logger.info("Step 2/5: Processing bronze layer...")
-        dbutils.notebook.run("../03_bronze/bronze_trading_systems", timeout_seconds=600)
-        dbutils.notebook.run("../03_bronze/bronze_external_apis", timeout_seconds=600)
+        dbutils.notebook.run("../03_operational/bronze_trading_systems", timeout_seconds=600)
+        dbutils.notebook.run("../03_operational/bronze_external_apis", timeout_seconds=600)
         logger.info("✅ Bronze layer completed")
         
         # Step 3: Silver layer
         logger.info("Step 3/5: Processing silver layer...")
-        dbutils.notebook.run("../04_silver/silver_cleanse_deduplicate", timeout_seconds=600)
-        dbutils.notebook.run("../04_silver/silver_data_quality_checks", timeout_seconds=600)
-        dbutils.notebook.run("../04_silver/silver_conform_enrich", timeout_seconds=600)
+        dbutils.notebook.run("../04_standardized/silver_cleanse_deduplicate", timeout_seconds=600)
+        dbutils.notebook.run("../04_standardized/silver_data_quality_checks", timeout_seconds=600)
+        dbutils.notebook.run("../04_standardized/silver_conform_enrich", timeout_seconds=600)
         logger.info("✅ Silver layer completed")
         
         # Step 4: Gold layer
         logger.info("Step 4/5: Processing gold layer...")
-        dbutils.notebook.run("../05_gold/gold_financial_analytics", timeout_seconds=600)
-        dbutils.notebook.run("../05_gold/gold_risk_measures", timeout_seconds=600)
-        dbutils.notebook.run("../05_gold/gold_regulatory_reporting", timeout_seconds=600)
+        dbutils.notebook.run("../05_reporting/gold_financial_analytics", timeout_seconds=600)
+        dbutils.notebook.run("../05_reporting/gold_risk_measures", timeout_seconds=600)
+        dbutils.notebook.run("../05_reporting/gold_regulatory_reporting", timeout_seconds=600)
         logger.info("✅ Gold layer completed")
         
         # Step 5: Data quality monitoring

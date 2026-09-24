@@ -12,7 +12,7 @@ from delta.tables import DeltaTable
 
 # Use glob pattern to read all batch subdirectories
 raw_path = "/Volumes/financial_lakehouse/raw/landing_files/trading_systems/*/*.parquet"
-bronze_table = "financial_lakehouse.bronze.trading_systems"
+bronze_table = "financial_lakehouse.operational.trading_systems"
 
 # COMMAND ----------
 
